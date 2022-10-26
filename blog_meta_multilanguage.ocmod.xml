@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Multilanguage for blog settings</name>
+    <code>blog_meta_nultilang</code>
+    <version>1.0</version>
+    <author>Babaiev Ihor</author>
+
+    <file path="admin/controller/blog/setting.php">
+        <operation>
+            <search>
+                <![CDATA[$data['header'] = $this->load->controller('common/header');]]>
+            </search>
+            <add position="after">
+                <![CDATA[
+
+        $this->load->model('localisation/language');
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
+            ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/blog/latest.php">
+        <operation>
+            <search>
+                <![CDATA[public function index() {]]>
+            </search>
+            <add position="after">
+                <![CDATA[$language_id = $this->config->get('config_language_id');]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/blog/latest.php">
+        <operation>
+            <search>
+                <![CDATA[$this->config->get('configblog_html_h1')]]>
+            </search>
+            <add position="replace">
+                <![CDATA[$this->config->get('configblog_html_h1')[$language_id]]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/blog/latest.php">
+        <operation>
+            <search>
+                <![CDATA[$this->config->get('configblog_meta_title')]]>
+            </search>
+            <add position="replace">
+                <![CDATA[$this->config->get('configblog_meta_title')[$language_id]]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/blog/latest.php">
+        <operation>
+            <search>
+                <![CDATA[$this->config->get('configblog_name')]]>
+            </search>
+            <add position="replace">
+                <![CDATA[$this->config->get('configblog_name')[$language_id]]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/blog/latest.php">
+        <operation>
+            <search>
+                <![CDATA[$this->config->get('configblog_meta_description')]]>
+            </search>
+            <add position="replace">
+                <![CDATA[$this->config->get('configblog_meta_description')[$language_id]]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/blog/latest.php">
+        <operation>
+            <search>
+                <![CDATA[$this->config->get('configblog_meta_keyword')]]>
+            </search>
+            <add position="replace">
+                <![CDATA[$this->config->get('configblog_meta_keyword')[$language_id]]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<div class="tab-pane active" id="tab-general">]]>
+            </search>
+            <add position="after">
+                <![CDATA[
+                <ul class="nav nav-tabs" id="language">
+                      {% for language in languages %}
+                        <li class="{% if loop.first %} active {% endif %}"><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                      {% endfor %}
+                </ul>
+
+                <div class="tab-content">{% for language in languages %}
+                <div class="tab-pane {% if loop.first %} active {% endif %}" id="language{{ language.language_id }}">
+
+            ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<input type="text" name="configblog_name" value="{{ configblog_name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<input type="text" name="configblog_name[{{ language.language_id }}]" value="{{ configblog_name[language.language_id] }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control" />]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<label class="col-sm-2 control-label" for="input-h1">{{ entry_html_h1 }}</label>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<label class="col-sm-2 control-label" for="input-h1{{ language.language_id }}">{{ entry_html_h1 }}</label>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<input type="text" name="configblog_html_h1" value="{{ configblog_html_h1 }}" placeholder="{{ entry_html_h1 }}" id="input-h1" class="form-control" />]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<input type="text" name="configblog_html_h1[{{ language.language_id }}]" value="{{ configblog_html_h1[language.language_id] }}" placeholder="{{ entry_html_h1 }}" id="input-h1{{ language.language_id }}" class="form-control" />]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<label class="col-sm-2 control-label" for="input-meta-title">{{ entry_meta_title }}</label>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<label class="col-sm-2 control-label" for="input-meta-title{{ language.language_id }}">{{ entry_meta_title }}</label>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<input type="text" name="configblog_meta_title" value="{{ configblog_meta_title }}" placeholder="{{ entry_meta_title }}" id="input-meta-title" class="form-control" />]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<input type="text" name="configblog_meta_title[{{ language.language_id }}]" value="{{ configblog_meta_title[language.language_id] }}" placeholder="{{ entry_meta_title }}" id="input-meta-title{{ language.language_id }}" class="form-control" />]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<label class="col-sm-2 control-label" for="input-meta-description">{{ entry_meta_description }}</label>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<label class="col-sm-2 control-label" for="input-meta-description{{ language.language_id }}">{{ entry_meta_description }}</label>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<textarea name="configblog_meta_description" rows="5" placeholder="{{ entry_meta_description }}" id="input-meta-description" class="form-control">{{ configblog_meta_description }}</textarea>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<textarea name="configblog_meta_description[{{ language.language_id }}]" rows="5" placeholder="{{ entry_meta_description }}" id="input-meta-description{{ language.language_id }}" class="form-control">{{ configblog_meta_description[language.language_id] }}</textarea>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<label class="col-sm-2 control-label" for="input-meta-keyword">{{ entry_meta_keyword }}</label>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<label class="col-sm-2 control-label" for="input-meta-keyword"{{ language.language_id }}>{{ entry_meta_keyword }}</label>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<textarea name="configblog_meta_keyword" rows="5" placeholder="{{ entry_meta_keyword }}" id="input-meta-keyword" class="form-control">{{ configblog_meta_keyword }}</textarea>]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<textarea name="configblog_meta_keyword[{{ language.language_id }}]" rows="5" placeholder="{{ entry_meta_keyword }}" id="input-meta-keyword{{ language.language_id }}" class="form-control">{{ configblog_meta_keyword[language.language_id] }}</textarea>]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/blog/setting.twig">
+        <operation>
+            <search>
+                <![CDATA[<div class="tab-pane" id="tab-option">]]>
+            </search>
+            <add position="before" offset="2">
+                <![CDATA[</div></div>{% endfor %}]]>
+            </add>
+        </operation>
+    </file>
+
+</modification>
